@@ -1,6 +1,6 @@
 # Task Manager App
 
-A simple **Task Management Application** built with **Next.js Server Actions, MongoDB, and Material UI**. Users can **add, edit, delete, and mark tasks as complete/incomplete**.
+A simple **Task Management Application** built with **Next.js, MongoDB, and Material UI**. Users can **add, edit, delete, and mark tasks as complete/incomplete**.
 
 ## 🚀 Live Demo
 
