@@ -19,6 +19,12 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
     completed: false,
   });
 
+  // State for validation errors
+  const [errors, setErrors] = useState({
+    title: false,
+    dueDate: false,
+  });
+
   useEffect(() => {
     if (editingTask) {
       setTask({
@@ -32,14 +38,30 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
     } else {
       setTask({ title: "", description: "", dueDate: "", completed: false });
     }
+    setErrors({ title: false, dueDate: false }); // Reset errors on open
   }, [editingTask, open]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTask({ ...task, [name]: value });
+
+    // Remove validation error when user types
+    setErrors({ ...errors, [name]: false });
   };
 
   const handleSubmit = () => {
+    // Validate required fields
+    let newErrors = { title: false, dueDate: false };
+
+    if (!task.title.trim()) newErrors.title = true;
+    if (!task.dueDate) newErrors.dueDate = true;
+
+    // If any error exists, prevent submission
+    if (newErrors.title || newErrors.dueDate) {
+      setErrors(newErrors);
+      return;
+    }
+
     const formattedTask = {
       ...task,
       dueDate: task.dueDate
@@ -60,8 +82,8 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
           padding: "1.5rem",
           borderRadius: "8px",
           boxShadow: 3,
-          width: "90%", // Responsive width for smaller screens
-          maxWidth: "450px", // Limits max width for desktop view
+          width: "90%",
+          maxWidth: "450px",
           margin: "auto",
           marginTop: "5vh",
           display: "flex",
@@ -98,10 +120,12 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
           name="title"
           value={task.title}
           onChange={handleChange}
+          error={errors.title}
+          helperText={errors.title ? "Title is required" : ""}
         />
 
         <TextField
-          label="Description"
+          label="Description (Optional)"
           fullWidth
           multiline
           rows={3}
@@ -118,6 +142,8 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
           value={task.dueDate}
           onChange={handleChange}
           InputLabelProps={{ shrink: true }}
+          error={errors.dueDate} // Highlight input field if error
+          helperText={errors.dueDate ? "Due date is required" : ""}
         />
 
         {/* Submit Button */}
