@@ -22,6 +22,7 @@ export default function Tasks() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deletingTaskId, setDeletingTaskId] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -69,10 +70,16 @@ export default function Tasks() {
 
   const handleDeleteTask = async (taskId) => {
     try {
+      setDeletingTaskId(taskId);
+
       await deleteTask(taskId);
+
+      // Update UI optimistically
       setTasks((prev) => prev.filter((task) => task._id !== taskId));
     } catch (err) {
       setError("Failed to delete task");
+    } finally {
+      setDeletingTaskId(null);
     }
   };
 
@@ -127,7 +134,7 @@ export default function Tasks() {
       {/* Task List */}
       <Box className="w-full mt-4 flex-grow p-2">
         {loading ? (
-          <div className="flex justify-center items-center w-full">
+          <div className="flex justify-center items-center w-full h-[50vh]">
             <CircularProgress />
           </div>
         ) : error ? (

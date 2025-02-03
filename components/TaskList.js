@@ -6,11 +6,12 @@ export default function TaskList({
   onEditTask,
   onDeleteTask,
   onToggleComplete,
+  deletingTaskId,
 }) {
   return (
     <div className="sm:p-6 rounded-lg">
       {tasks.length === 0 ? (
-        <Typography className="flex justify-center items-center  text-gray-600 h-[50vh]">
+        <Typography className="flex justify-center items-center text-gray-600 h-[50vh]">
           No tasks available. Click &quot;Add Task&quot; to create one.
         </Typography>
       ) : (
@@ -22,6 +23,7 @@ export default function TaskList({
               onEdit={onEditTask}
               onDelete={onDeleteTask}
               onToggleComplete={onToggleComplete}
+              deletingTaskId={deletingTaskId}
             />
           ))}
         </div>
