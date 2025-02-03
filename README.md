@@ -4,7 +4,7 @@ A simple **Task Management Application** built with **Next.js, MongoDB, and Mate
 
 ## 🚀 Live Demo
 
-🔗 **Deployed Link:** [Task Manager App](https://your-deployed-url.vercel.app/)
+🔗 **Deployed Link:** [Task Manager App](https://task-management-tan-chi.vercel.app/)
 
 ## 🛠️ Features
 
