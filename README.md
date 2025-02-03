@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Task Manager App
 
-## Getting Started
+A simple **Task Management Application** built with **Next.js, MongoDB, and Material UI**. Users can **add, edit, delete, and mark tasks as complete/incomplete**.
 
-First, run the development server:
+## 🚀 Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🔗 **Deployed Link:** [Task Manager App](https://your-deployed-url.vercel.app/)
+
+## 🛠️ Features
+
+- ✅ **Create, Edit, Delete Tasks**
+- ✅ **Mark tasks as Complete/Incomplete**
+- ✅ **Task Due Date Management**
+- ✅ **Persistent Storage using MongoDB**
+- ✅ **Modern UI with Material UI & Tailwind CSS**
+- ✅ **Optimized for Mobile & Desktop (Responsive)**
+
+## 📌 Tech Stack
+
+- **Frontend:** Next.js, React, Material UI, Tailwind CSS
+- **Backend:** Next.js API Routes (Server Actions)
+- **Database:** MongoDB (Mongoose ORM)
+- **Deployment:** Vercel
+
+## 📂 Project Structure
+
+```
+task-manager/
+│── app/
+│   ├── api/
+│   │   ├── tasks/           # API Routes for CRUD Operations
+│── components/
+│   ├── Header.js            # App Header Component
+│   ├── Footer.js            # App Footer Component
+│   ├── TaskList.js          # Task Listing Component
+│   ├── TaskItem.js          # Individual Task Component
+│   ├── TaskModal.js         # Task Form Modal Component
+│── public/                  # Static Assets
+│── styles/                  # Styling Files
+│── .env                     # Environment Variables (MongoDB URI)
+│── package.json             # Project Dependencies
+│── README.md                # Project Documentation
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 1️⃣ Clone the Repository
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+git clone https://github.com/your-github-username/task-manager.git
+cd task-manager
+```
 
-## Learn More
+### 2️⃣ Install Dependencies
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3️⃣ Set Up Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Create a `.env.local` file and add your MongoDB URI:
 
-## Deploy on Vercel
+```
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster.mongodb.net/mydatabase
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4️⃣ Run the Development Server
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sh
+npm run dev
+```
+
+Your app will be running at **http://localhost:3000**
+
+## 🔥 API Endpoints
+
+| Method | Endpoint         | Description       |
+| ------ | ---------------- | ----------------- |
+| GET    | `/api/tasks`     | Get all tasks     |
+| POST   | `/api/tasks`     | Create a new task |
+| PATCH  | `/api/tasks/:id` | Update a task     |
+| DELETE | `/api/tasks/:id` | Delete a task     |
