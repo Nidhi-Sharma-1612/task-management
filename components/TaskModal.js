@@ -27,19 +27,33 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
 
   useEffect(() => {
     if (editingTask) {
+      console.log("✅ Editing Task Received:", editingTask); // Debugging Log
+
+      // Ensure the dueDate is valid before formatting
+      const formattedDueDate = editingTask.dueDate
+        ? dayjs(editingTask.dueDate).isValid()
+          ? dayjs(editingTask.dueDate).format("YYYY-MM-DD")
+          : ""
+        : "";
+
       setTask({
-        ...editingTask,
-        dueDate: editingTask.dueDate
-          ? dayjs(editingTask.dueDate, "YYYY-MM-DD").isValid()
-            ? dayjs(editingTask.dueDate, "YYYY-MM-DD").format("YYYY-MM-DD")
-            : ""
-          : "",
+        title: editingTask.title || "",
+        description: editingTask.description || "",
+        dueDate: formattedDueDate, // Use formatted date
+        completed: editingTask.completed || false,
+      });
+
+      console.log("🛠️ Updated Task State in Modal:", {
+        title: editingTask.title || "",
+        description: editingTask.description || "",
+        dueDate: formattedDueDate, // Check if this is correct
+        completed: editingTask.completed || false,
       });
     } else {
       setTask({ title: "", description: "", dueDate: "", completed: false });
     }
     setErrors({ title: false, dueDate: false }); // Reset errors on open
-  }, [editingTask, open]);
+  }, [editingTask, open]); // ✅ Ensure state updates when modal opens
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -142,7 +156,7 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
           value={task.dueDate}
           onChange={handleChange}
           InputLabelProps={{ shrink: true }}
-          error={errors.dueDate} // Highlight input field if error
+          error={errors.dueDate}
           helperText={errors.dueDate ? "Due date is required" : ""}
         />
 

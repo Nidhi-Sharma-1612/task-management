@@ -35,6 +35,7 @@ export default function TaskItem({ task, onEdit, onDelete, onToggleComplete }) {
         <IconButton color="primary" onClick={() => onEdit(task)}>
           <EditIcon />
         </IconButton>
+
         <IconButton color="error" onClick={() => onDelete(task._id)}>
           <DeleteIcon />
         </IconButton>

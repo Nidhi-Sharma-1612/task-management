@@ -1,6 +1,6 @@
 # Task Manager App
 
-A simple **Task Management Application** built with **Next.js, MongoDB, and Material UI**. Users can **add, edit, delete, and mark tasks as complete/incomplete**.
+A simple **Task Management Application** built with **Next.js Server Actions, MongoDB, and Material UI**. Users can **add, edit, delete, and mark tasks as complete/incomplete**.
 
 ## 🚀 Live Demo
 
@@ -14,32 +14,38 @@ A simple **Task Management Application** built with **Next.js, MongoDB, and Mate
 - ✅ **Persistent Storage using MongoDB**
 - ✅ **Modern UI with Material UI & Tailwind CSS**
 - ✅ **Optimized for Mobile & Desktop (Responsive)**
+- ✅ **Built using Next.js Server Actions for better performance**
 
 ## 📌 Tech Stack
 
 - **Frontend:** Next.js, React, Material UI, Tailwind CSS
-- **Backend:** Next.js API Routes (Server Actions)
+- **Backend:** Next.js Server Actions (No API routes)
 - **Database:** MongoDB (Mongoose ORM)
 - **Deployment:** Vercel
 
-## 📂 Project Structure
+## 📂 Updated Project Structure (Using Server Actions)
 
 ```
 task-manager/
 │── app/
-│   ├── api/
-│   │   ├── tasks/           # API Routes for CRUD Operations
-│── components/
-│   ├── Header.js            # App Header Component
-│   ├── Footer.js            # App Footer Component
-│   ├── TaskList.js          # Task Listing Component
-│   ├── TaskItem.js          # Individual Task Component
-│   ├── TaskModal.js         # Task Form Modal Component
-│── public/                  # Static Assets
-│── styles/                  # Styling Files
-│── .env                     # Environment Variables (MongoDB URI)
-│── package.json             # Project Dependencies
-│── README.md                # Project Documentation
+│   ├── actions/
+│   │   ├── taskActions.js        # Server Actions for CRUD operations
+│   ├── components/
+│   │   ├── Header.js             # App Header Component
+│   │   ├── Footer.js             # App Footer Component
+│   │   ├── TaskList.js           # Task Listing Component
+│   │   ├── TaskItem.js           # Individual Task Component
+│   │   ├── TaskModal.js          # Task Form Modal Component
+│   │   ├── Tasks.js              # Main Task Management Component
+│── lib/
+│   ├── dbConnect.js              # Database Connection
+│── models/
+│   ├── Task.js                   # Task Model Schema
+│── public/                        # Static Assets
+│── styles/                        # Styling Files
+│── .env.local                     # Environment Variables (MongoDB URI)
+│── package.json                   # Project Dependencies
+│── README.md                      # Project Documentation
 ```
 
 ## 🚀 Getting Started
@@ -73,11 +79,11 @@ npm run dev
 
 Your app will be running at **http://localhost:3000**
 
-## 🔥 API Endpoints
+## 🔥 Server Actions for Tasks
 
-| Method | Endpoint         | Description       |
-| ------ | ---------------- | ----------------- |
-| GET    | `/api/tasks`     | Get all tasks     |
-| POST   | `/api/tasks`     | Create a new task |
-| PATCH  | `/api/tasks/:id` | Update a task     |
-| DELETE | `/api/tasks/:id` | Delete a task     |
+| Function       | Description       | File Location                |
+| -------------- | ----------------- | ---------------------------- |
+| `getTasks()`   | Get all tasks     | `app/actions/taskActions.js` |
+| `createTask()` | Create a new task | `app/actions/taskActions.js` |
+| `updateTask()` | Update a task     | `app/actions/taskActions.js` |
+| `deleteTask()` | Delete a task     | `app/actions/taskActions.js` |
