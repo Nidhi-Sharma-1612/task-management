@@ -63,7 +63,6 @@ export default function Tasks() {
   };
 
   const handleEditTask = (task) => {
-    console.log("🛠️ Opening Edit Modal with Task:", task); // Debugging
     setEditingTask(task);
     setIsModalOpen(true);
   };
@@ -74,6 +73,31 @@ export default function Tasks() {
       setTasks((prev) => prev.filter((task) => task._id !== taskId));
     } catch (err) {
       setError("Failed to delete task");
+    }
+  };
+
+  const handleToggleComplete = async (task) => {
+    try {
+      const updatedTask = { ...task, completed: !task.completed };
+
+      // Optimistically update the UI first
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t._id === task._id ? updatedTask : t))
+      );
+
+      // Send update request to server
+      const res = await updateTask({
+        id: task._id,
+        completed: updatedTask.completed,
+      });
+
+      if (!res.success) throw new Error("Failed to update task status");
+    } catch (err) {
+      setError("Failed to update task status");
+      // Revert UI update in case of error
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t._id === task._id ? task : t))
+      );
     }
   };
 
@@ -115,6 +139,7 @@ export default function Tasks() {
             tasks={tasks}
             onEditTask={handleEditTask}
             onDeleteTask={handleDeleteTask}
+            onToggleComplete={handleToggleComplete}
           />
         )}
       </Box>

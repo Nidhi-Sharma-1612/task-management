@@ -3,15 +3,15 @@ import { dbConnect } from "@/lib/dbConnect";
 import Task from "@/models/Task";
 import dayjs from "dayjs";
 
-// ✅ Get All Tasks
+// ✅ Get All Tasks (Fix Date Format)
 export async function getTasks() {
   await dbConnect();
-  const tasks = await Task.find({}).lean(); // Converts MongoDB documents to plain objects
+  const tasks = await Task.find({}).lean();
 
   return tasks.map((task) => ({
     ...task,
-    _id: task._id.toString(), // Convert ObjectId to string
-    dueDate: task.dueDate ? dayjs(task.dueDate).format("YYYY-MM-DD") : null, // Format date
+    _id: task._id.toString(),
+    dueDate: task.dueDate ? dayjs(task.dueDate).format("YYYY-MM-DD") : null,
   }));
 }
 
@@ -28,14 +28,14 @@ export async function createTask({ title, description, dueDate }) {
   return {
     success: true,
     task: {
-      ...newTask.toObject(), // Convert Mongoose model to plain object
-      _id: newTask._id.toString(), // Convert ObjectId to string
-      dueDate: dayjs(newTask.dueDate).format("YYYY-MM-DD"), // Format date
+      ...newTask.toObject(),
+      _id: newTask._id.toString(),
+      dueDate: dayjs(newTask.dueDate).format("YYYY-MM-DD"),
     },
   };
 }
 
-// ✅ Update Task
+// ✅ Update Task (Fixes Date Loss)
 export async function updateTask({
   id,
   title,
@@ -45,26 +45,40 @@ export async function updateTask({
 }) {
   await dbConnect();
 
+  // 🛠️ Retrieve the existing task to preserve missing fields
+  const existingTask = await Task.findById(id);
+  if (!existingTask) {
+    throw new Error("Task not found");
+  }
+
+  // ✅ Ensure that `dueDate` is always preserved if not provided in the update
   const formattedDueDate = dueDate
     ? dayjs(dueDate, "YYYY-MM-DD").toISOString()
-    : null;
+    : existingTask.dueDate;
 
   const updatedTask = await Task.findByIdAndUpdate(
     id,
-    { title, description, dueDate: formattedDueDate, completed },
+    {
+      title: title ?? existingTask.title,
+      description: description ?? existingTask.description,
+      dueDate: formattedDueDate,
+      completed: completed ?? existingTask.completed,
+    },
     { new: true }
-  ).lean(); // Ensure we return a plain object
+  ).lean();
 
   if (!updatedTask) {
-    throw new Error("Task not found");
+    throw new Error("Task update failed");
   }
 
   return {
     success: true,
     task: {
       ...updatedTask,
-      _id: updatedTask._id.toString(), // Convert ObjectId to string
-      dueDate: dayjs(updatedTask.dueDate).format("YYYY-MM-DD"), // Format date
+      _id: updatedTask._id.toString(),
+      dueDate: updatedTask.dueDate
+        ? dayjs(updatedTask.dueDate).format("YYYY-MM-DD")
+        : null,
     },
   };
 }

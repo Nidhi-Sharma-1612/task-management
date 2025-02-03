@@ -10,13 +10,15 @@ export default function TaskItem({ task, onEdit, onDelete, onToggleComplete }) {
       <div className="flex items-center space-x-3">
         <Checkbox
           checked={task.completed}
-          onChange={() => onToggleComplete(task)}
+          onChange={() => onToggleComplete(task)} // ✅ Toggle completion status
           color="primary"
         />
         <div>
           <Typography
             variant="h6"
-            className={task.completed ? "line-through text-gray-500" : ""}
+            className={`transition-all ${
+              task.completed ? "line-through text-gray-500" : ""
+            }`}
           >
             {task.title}
           </Typography>

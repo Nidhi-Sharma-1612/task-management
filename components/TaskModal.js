@@ -27,26 +27,16 @@ export default function TaskModal({ open, onClose, onAddTask, editingTask }) {
 
   useEffect(() => {
     if (editingTask) {
-      console.log("✅ Editing Task Received:", editingTask); // Debugging Log
-
       // Ensure the dueDate is valid before formatting
-      const formattedDueDate = editingTask.dueDate
-        ? dayjs(editingTask.dueDate).isValid()
+      const formattedDueDate =
+        editingTask.dueDate && dayjs(editingTask.dueDate).isValid()
           ? dayjs(editingTask.dueDate).format("YYYY-MM-DD")
-          : ""
-        : "";
+          : "";
 
       setTask({
         title: editingTask.title || "",
         description: editingTask.description || "",
-        dueDate: formattedDueDate, // Use formatted date
-        completed: editingTask.completed || false,
-      });
-
-      console.log("🛠️ Updated Task State in Modal:", {
-        title: editingTask.title || "",
-        description: editingTask.description || "",
-        dueDate: formattedDueDate, // Check if this is correct
+        dueDate: formattedDueDate, // ✅ Correctly formatted date
         completed: editingTask.completed || false,
       });
     } else {
